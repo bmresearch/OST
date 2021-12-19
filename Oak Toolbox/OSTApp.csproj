@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ApplicationIcon>Assets\logo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <AvaloniaResource Include="Assets\**" />
+    <Folder Include="Resources\" />
+    <None Remove=".gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.10" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.10" />
+    <!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.10" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.10" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\TransactionView.axaml.cs">
+      <DependentUpon>TransactionView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TransactionSendView.axaml.cs">
+      <DependentUpon>TransactionSendView.axaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\TransactionSignView.axaml.cs">
+      <DependentUpon>TransactionSignView.axaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>
