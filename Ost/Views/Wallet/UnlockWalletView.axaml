@@ -1,0 +1,175 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             xmlns:assists="clr-namespace:Material.Styles.Assists;assembly=Material.Styles"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ost.Views.Wallet.UnlockWalletView">
+
+	<UserControl.Styles>
+		<Style Selector="styles|Card">
+			<Setter Property="Background" Value="{DynamicResource CardBackgroundColor}" />
+		</Style>
+	</UserControl.Styles>
+
+	<UserControl.KeyBindings>
+		<KeyBinding Command="{Binding Confirm}" Gesture="Enter" x:CompileBindings="False" />
+	</UserControl.KeyBindings>
+
+	<styles:Card
+		Margin="75">
+		<DockPanel
+			LastChildFill="True"
+			HorizontalAlignment="Center"
+			VerticalAlignment="Center">
+			<Button
+				DockPanel.Dock="Bottom"
+				Classes="Filled"
+				Margin="5"
+				Command="{Binding Confirm}"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Center"
+				HorizontalContentAlignment="Center"
+				VerticalContentAlignment="Center">
+				<Grid>
+					<TextBlock
+						IsVisible="{Binding !IsProcessing}"
+						VerticalAlignment="Center"
+						Grid.Column="0"
+						Grid.Row="0"
+						HorizontalAlignment="Center"
+						Text="Confirm"/>
+					<ProgressBar
+						VerticalAlignment="Center"
+						Grid.Column="0"
+						Grid.Row="0"
+						HorizontalAlignment="Center"
+						Classes="Circle"
+						IsIndeterminate="True"
+						IsVisible="{Binding IsProcessing}"
+						Width="20"
+						Height="20"
+						MinWidth="20"/>
+				</Grid>
+			</Button>
+			<TextBlock
+				Classes="Headline5"
+				DockPanel.Dock="Top"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Center"
+				Margin="20"
+				TextAlignment="Center"
+				Text="Unlock Wallet"
+				Foreground="{DynamicResource MainTextAccent}"/>
+			<ContentPresenter
+				DockPanel.Dock="Bottom"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Center"
+				Margin="20"
+				Name="ProgressStatusContentPresenter">
+				<Interaction.Behaviors>
+					<DataTriggerBehavior
+						Binding="{Binding WrongPassword, Mode=OneWay}"
+						ComparisonCondition="Equal"
+						Value="False">
+						<ChangePropertyAction
+							TargetObject="{Binding #ProgressStatusContentPresenter}"
+							PropertyName="Content">
+							<ChangePropertyAction.Value>
+								<TextBlock
+									Classes="Subtitle2"
+									TextAlignment="Center"
+									Text="{Binding ProgressStatus}"
+									Foreground="{DynamicResource MainTextAccent}"/>
+							</ChangePropertyAction.Value>
+						</ChangePropertyAction>
+					</DataTriggerBehavior>
+					<DataTriggerBehavior
+						Binding="{Binding WrongPassword, Mode=OneWay}"
+						ComparisonCondition="Equal"
+						Value="True">
+						<ChangePropertyAction
+							TargetObject="{Binding #ProgressStatusContentPresenter}"
+							PropertyName="Content">
+							<ChangePropertyAction.Value>
+								<TextBlock
+									Classes="Subtitle2"
+									TextAlignment="Center"
+									Text="{Binding ProgressStatus}"
+									Foreground="{DynamicResource ErrorAccent}"/>
+							</ChangePropertyAction.Value>
+						</ChangePropertyAction>
+					</DataTriggerBehavior>
+				</Interaction.Behaviors>
+			</ContentPresenter>
+			<DockPanel DockPanel.Dock="Bottom">
+				<StackPanel Orientation="Vertical">
+					<TextBlock
+						Classes="Subtitle2"
+						Text="Password"
+						TextAlignment="Left"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Left"
+						Margin="5"
+						Width="150"
+						Foreground="{DynamicResource MainTextAccent}"/>
+					<StackPanel Orientation="Horizontal">
+						<TextBox
+							Classes="Filled"
+							Text="{Binding Password}"
+							RevealPassword="{Binding ShowPassword}"
+							PasswordChar="*"
+							VerticalAlignment="Center"
+							HorizontalAlignment="Left"
+							Margin="5"
+							Height="50"
+							Width="750">
+						</TextBox>
+						<Button 
+							Height="32"
+							Width="32"
+							Command="{Binding TriggerShowPassword}">
+							<ContentPresenter
+								Name="RevealPasswordButtonContentPresenter">
+								<Interaction.Behaviors>
+									<DataTriggerBehavior
+										Binding="{Binding ShowPassword, Mode=OneWay}"
+										ComparisonCondition="Equal"
+										Value="False">
+										<ChangePropertyAction
+											TargetObject="{Binding #RevealPasswordButtonContentPresenter}"
+											PropertyName="Content">
+											<ChangePropertyAction.Value>
+												<avalonia:MaterialIcon
+													DockPanel.Dock="Right"
+													Kind="ShowOutline"/>
+											</ChangePropertyAction.Value>
+										</ChangePropertyAction>
+									</DataTriggerBehavior>
+									<DataTriggerBehavior
+										Binding="{Binding ShowPassword, Mode=OneWay}"
+										ComparisonCondition="Equal"
+										Value="True">
+										<ChangePropertyAction
+											TargetObject="{Binding #RevealPasswordButtonContentPresenter}"
+											PropertyName="Content">
+											<ChangePropertyAction.Value>
+												<avalonia:MaterialIcon
+													DockPanel.Dock="Right"
+													Kind="HideOutline"/>
+											</ChangePropertyAction.Value>
+										</ChangePropertyAction>
+									</DataTriggerBehavior>
+								</Interaction.Behaviors>
+							</ContentPresenter>
+						</Button>
+					</StackPanel>
+				</StackPanel>
+			</DockPanel>
+
+		</DockPanel>
+
+	</styles:Card>
+</UserControl>

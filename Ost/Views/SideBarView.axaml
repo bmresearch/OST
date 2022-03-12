@@ -1,0 +1,242 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ost.Views.SideBarView">
+
+	<DockPanel
+		Width="200">
+		<styles:Card
+			DockPanel.Dock="Bottom"
+			Margin="5,5,0,5">
+			<DockPanel
+				Margin="5"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Stretch">
+				<DockPanel
+					DockPanel.Dock="Top"
+					Margin="5"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch">
+					<TextBlock
+						DockPanel.Dock="Top"
+						Classes="Subtitle2"
+						Margin="5"
+						Text="Current Wallet"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"/>
+					<ComboBox
+						DockPanel.Dock="Top"
+						Items="{Binding Wallets}"
+						SelectedItem="{Binding CurrentWallet}"
+						Padding="0"
+						Margin="5"
+						HorizontalAlignment="Stretch"
+						VerticalAlignment="Stretch">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<DockPanel
+									HorizontalAlignment="Stretch"
+									VerticalAlignment="Stretch">
+									<TextBlock
+										DockPanel.Dock="Top"
+										Classes="Subtitle1"
+										Margin="5"
+										Text="{Binding Alias}"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"/>
+									<TextBlock
+										DockPanel.Dock="Top"
+										Classes="Body2"
+										Margin="5"
+										Text="{Binding ShortenedAddress}"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"/>
+								</DockPanel>
+							</DataTemplate>			
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+				</DockPanel>
+				<DockPanel
+					DockPanel.Dock="Top"
+					Margin="5"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch">
+					<TextBlock
+						DockPanel.Dock="Top"
+						Classes="Subtitle2"
+						Margin="5"
+						Text="Internet Access"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"/>
+					<TextBlock
+						DockPanel.Dock="Top"
+						Classes="Subheadline2"
+						Margin="5"
+						Text="{Binding NetworkConnectionStatus}"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"/>
+				</DockPanel>
+			</DockPanel>
+		</styles:Card>
+
+		<styles:Card
+			DockPanel.Dock="Top"
+			Margin="5,5,0,0">
+			<DockPanel
+				Width="200">
+				<StackPanel
+					DockPanel.Dock="Bottom"
+					Classes="SideBarPanel"
+					Orientation="Vertical">
+					<Button
+						Margin="0,10,0,10"
+						Content="Settings"
+						Width="175"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Command="{Binding ChangeView}"
+						CommandParameter="Settings"
+						ToolTip.Tip="Manage Application Settings"/>
+				</StackPanel>
+
+				<StackPanel
+					DockPanel.Dock="Top"
+					Classes="SideBarPanel"
+					Orientation="Vertical">
+
+					<Image
+						Source="/Assets/Ost.png"
+						Margin="0,10,0,10"
+						Height="50"
+						Width="50"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						ToolTip.Tip="The Ost"/>
+					<Button
+						Margin="0,10,0,10"
+						Content="Wallet"
+						Width="175"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Command="{Binding ChangeView}"
+						CommandParameter="Wallet"
+						IsVisible="{Binding !SkippedWallets}"
+						ToolTip.Tip="View and Manage Wallets"/>
+					<Button
+						Margin="0,10,0,10"
+						Content="Watch Only"
+						Width="175"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Command="{Binding ChangeView}"
+						CommandParameter="WatchOnly"
+						IsVisible="{Binding !SkippedWallets}"
+						ToolTip.Tip="View and Manage Watch Only Wallets"/>
+
+					<Button
+						Margin="0,10,0,10"
+						Content="Crafter"
+						Width="175"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						IsVisible="{Binding !SkippedWallets}"
+						Command="{Binding ChangeView}"
+						CommandParameter="Crafter"
+						ToolTip.Tip="Craft, Sign and Submit Transactions"/>
+
+					<Button
+						Margin="0,10,0,10"
+						Content="Nonce Accounts"
+						Width="175"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						IsVisible="{Binding !SkippedWallets}"
+						Command="{Binding ChangeView}"
+						CommandParameter="NonceAccounts"
+						ToolTip.Tip="View and Manage Nonce Accounts"/>
+
+					<Button
+						Margin="0,10,0,10"
+						Content="Multisig Accounts"
+						Width="175"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						IsVisible="{Binding !SkippedWallets}"
+						Command="{Binding ChangeView}"
+						CommandParameter="MultiSigs"
+						ToolTip.Tip="View and Manage Multi Signature Accounts"/>
+
+					<Button
+						Margin="0,10,0,10"
+						Content="Name Service"
+						Width="175"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Command="{Binding ChangeView}"
+						CommandParameter="Name Service"
+						ToolTip.Tip="Lookup .sol and twitter names"/>
+          
+					<Button
+						Margin="0,10,0,10"
+						Content="NFTs"
+						Width="175"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Command="{Binding ChangeView}"
+						CommandParameter="NFTs"
+						ToolTip.Tip="NFT Tools"/>
+          
+					<Button
+						Margin="0,10,0,10"
+						Content="Forensic"
+						Width="175"
+						Background="Transparent"
+						BorderBrush="Transparent"
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Command="{Binding ChangeView}"
+						CommandParameter="Forensic"
+						ToolTip.Tip="Forensic Tools"/>
+				</StackPanel>
+			</DockPanel>
+		</styles:Card>
+	</DockPanel>
+
+</UserControl>

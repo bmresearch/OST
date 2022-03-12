@@ -1,0 +1,125 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ost.Views.Fields.SignatureWrapperView">
+	<DockPanel
+		LastChildFill="True"
+		HorizontalAlignment="Stretch"
+		VerticalAlignment="Stretch">
+		<DockPanel
+			DockPanel.Dock="Top"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Center">
+			<DockPanel
+				DockPanel.Dock="Top"
+				HorizontalAlignment="Stretch"
+				VerticalAlignment="Center">
+				<TextBlock
+					DockPanel.Dock="Left"
+					Classes="Body1"
+					Text="Signature from "
+					VerticalAlignment="Center"
+					HorizontalAlignment="Left"/>				
+				<TextBlock
+					DockPanel.Dock="Left"
+					Classes="Subtitle1"
+					Text="{Binding ShortenedPublicKey}"
+					VerticalAlignment="Center"
+					HorizontalAlignment="Center"/>
+				<Button
+					DockPanel.Dock="Left"
+					Classes="Flat"
+					ToolTip.Tip="Load signature from file."
+					VerticalAlignment="Center"
+					HorizontalAlignment="Right"
+					Height="32"
+					Width="32"
+					Margin="5"
+					Command="{Binding LoadSignatureFromFile}">
+					<avalonia:MaterialIcon Kind="FileUpload" />
+				</Button>
+			</DockPanel>
+			<TextBox
+				Classes="Filled"
+				Text="{Binding Signature}"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Left"
+				FontSize="10"
+				Width="500"/>
+		</DockPanel>
+		<ContentPresenter
+			Name="InputContentPresenter">
+			<Interaction.Behaviors>
+				<DataTriggerBehavior
+					Binding="{Binding Input, Mode=OneWay}"
+					ComparisonCondition="Equal"
+					Value="False">
+					<ChangePropertyAction
+						TargetObject="{Binding #InputContentPresenter}"
+						PropertyName="Content">
+						<ChangePropertyAction.Value>
+							<TextBlock/>
+						</ChangePropertyAction.Value>
+					</ChangePropertyAction>
+				</DataTriggerBehavior>
+				<DataTriggerBehavior
+					Binding="{Binding Input, Mode=OneWay}"
+					ComparisonCondition="Equal"
+					Value="True">
+					<ChangePropertyAction
+						TargetObject="{Binding #InputContentPresenter}"
+						PropertyName="Content">
+						<ChangePropertyAction.Value>
+							<ContentPresenter
+								Name="VerifiedContentPresenter">
+								<Interaction.Behaviors>
+									<DataTriggerBehavior
+										Binding="{Binding Verified, Mode=OneWay}"
+										ComparisonCondition="Equal"
+										Value="False">
+										<ChangePropertyAction
+											TargetObject="{Binding #VerifiedContentPresenter}"
+											PropertyName="Content">
+											<ChangePropertyAction.Value>
+												<TextBlock
+													Classes="Body1"
+													Text="Signature does not match."
+													TextAlignment="Left"
+													VerticalAlignment="Center"
+													HorizontalAlignment="Left"
+													Margin="5,-5,0,5"
+													Foreground="{DynamicResource ErrorAccent}"/>
+											</ChangePropertyAction.Value>
+										</ChangePropertyAction>
+									</DataTriggerBehavior>
+									<DataTriggerBehavior
+										Binding="{Binding Verified, Mode=OneWay}"
+										ComparisonCondition="Equal"
+										Value="True">
+										<ChangePropertyAction
+											TargetObject="{Binding #VerifiedContentPresenter}"
+											PropertyName="Content">
+											<ChangePropertyAction.Value>
+												<TextBlock
+													Classes="Body1"
+													Text="Signature verified."
+													TextAlignment="Left"
+													VerticalAlignment="Center"
+													HorizontalAlignment="Left"
+													Margin="5,-5,0,5"
+													Foreground="{DynamicResource ValidatedAccent}"/>
+											</ChangePropertyAction.Value>
+										</ChangePropertyAction>
+									</DataTriggerBehavior>
+								</Interaction.Behaviors>
+							</ContentPresenter>
+						</ChangePropertyAction.Value>
+					</ChangePropertyAction>
+				</DataTriggerBehavior>
+			</Interaction.Behaviors>
+		</ContentPresenter>
+	</DockPanel>
+</UserControl>
