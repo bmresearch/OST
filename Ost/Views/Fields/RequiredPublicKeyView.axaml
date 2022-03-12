@@ -1,0 +1,110 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ost.Views.Fields.RequiredPublicKeyView">
+	<DockPanel
+		HorizontalAlignment="Stretch"
+		VerticalAlignment="Stretch">
+		<ContentPresenter
+			DockPanel.Dock="Bottom"
+			Name="InputContentPresenter">
+			<Interaction.Behaviors>
+				<DataTriggerBehavior
+					Binding="{Binding Input, Mode=OneWay}"
+					ComparisonCondition="Equal"
+					Value="False">
+					<ChangePropertyAction
+						TargetObject="{Binding #InputContentPresenter}"
+						PropertyName="Content">
+						<ChangePropertyAction.Value>
+							<TextBlock/>
+						</ChangePropertyAction.Value>
+					</ChangePropertyAction>
+				</DataTriggerBehavior>
+				<DataTriggerBehavior
+					Binding="{Binding Input, Mode=OneWay}"
+					ComparisonCondition="Equal"
+					Value="True">
+					<ChangePropertyAction
+						TargetObject="{Binding #InputContentPresenter}"
+						PropertyName="Content">
+						<ChangePropertyAction.Value>
+							<ContentPresenter
+								Name="VerifiedContentPresenter">
+								<Interaction.Behaviors>
+									<DataTriggerBehavior
+										Binding="{Binding Verified, Mode=OneWay}"
+										ComparisonCondition="Equal"
+										Value="False">
+										<ChangePropertyAction
+											TargetObject="{Binding #VerifiedContentPresenter}"
+											PropertyName="Content">
+											<ChangePropertyAction.Value>
+												<TextBlock
+													Classes="Body2"
+													Text="Public key is invalid."
+													TextAlignment="Left"
+													VerticalAlignment="Center"
+													HorizontalAlignment="Left"
+													Margin="5,-5,0,5"
+													Foreground="Red"/>
+											</ChangePropertyAction.Value>
+										</ChangePropertyAction>
+									</DataTriggerBehavior>
+									<DataTriggerBehavior
+										Binding="{Binding Verified, Mode=OneWay}"
+										ComparisonCondition="Equal"
+										Value="True">
+										<ChangePropertyAction
+											TargetObject="{Binding #VerifiedContentPresenter}"
+											PropertyName="Content">
+											<ChangePropertyAction.Value>
+												<TextBlock
+													Classes="Body2"
+													Text="Public key is valid."
+													TextAlignment="Left"
+													VerticalAlignment="Center"
+													HorizontalAlignment="Left"
+													Margin="5,-5,0,5"
+													Foreground="Green"/>
+											</ChangePropertyAction.Value>
+										</ChangePropertyAction>
+									</DataTriggerBehavior>
+								</Interaction.Behaviors>
+							</ContentPresenter>
+						</ChangePropertyAction.Value>
+					</ChangePropertyAction>
+				</DataTriggerBehavior>
+			</Interaction.Behaviors>
+		</ContentPresenter>
+		<DockPanel
+			DockPanel.Dock="Top"
+			HorizontalAlignment="Stretch"
+			VerticalAlignment="Center">
+			<TextBox
+				DockPanel.Dock="Left"
+				Classes="Filled"
+				Text="{Binding PublicKeyString}"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Center"
+				Width="450"/>
+			<Button
+				DockPanel.Dock="Left"
+				Classes="Flat"
+				ToolTip.Tip="Remove this signer"
+				VerticalAlignment="Center"
+				HorizontalAlignment="Center"
+				Height="32"
+				Width="32"
+				Margin="5"
+				Command="{Binding $parent[ItemsRepeater].DataContext.RemoveSigner}"
+				CommandParameter="{Binding}"
+				IsVisible="{Binding !IsRequired}">
+				<avalonia:MaterialIcon Kind="Remove" />
+			</Button>
+		</DockPanel>
+	</DockPanel>
+</UserControl>

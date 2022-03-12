@@ -1,0 +1,101 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ost.Views.NFTs.NFTView">
+
+  <styles:Card Margin="5">
+    <DockPanel>
+      <!--<TextBlock DockPanel.Dock="Top" Classes="Headline5" VerticalAlignment="Center" HorizontalAlignment="Left">NFT Tools</TextBlock>-->
+
+
+      <DockPanel DockPanel.Dock="Top">
+
+        <DockPanel DockPanel.Dock="Top">
+          <TextBlock Classes="Headline5" DockPanel.Dock="Top" VerticalAlignment="Center" HorizontalAlignment="Left">NFT Viewer</TextBlock>
+          <TextBlock DockPanel.Dock="Left" Text="Mint Address" Margin="5,0" VerticalAlignment="Center"/>
+          <TextBox DockPanel.Dock="Left" Margin="10,0" Width="400" Text="{Binding SearchString}"></TextBox>
+          <Button DockPanel.Dock="Left" HorizontalAlignment="Left"
+                  Margin="5,0"
+                  Classes="Filled"
+                  Command="{Binding QueryByAddress}"
+                  Width="75"
+                  IsEnabled="{Binding !Loading}">
+            <Grid>
+              <TextBlock IsVisible="{Binding !Loading}" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center">Query</TextBlock>
+              <ProgressBar VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Classes="Circle" IsIndeterminate="True" IsVisible="{Binding Loading}"  Width="20"  Height="20"  MinWidth="20"/>
+            </Grid>
+          </Button>
+        </DockPanel>
+
+        <DockPanel DockPanel.Dock="Top" Margin="10" MaxHeight="420" HorizontalAlignment="Stretch" LastChildFill="True" IsVisible="{Binding LoadedNFT}">
+
+
+          <Image Width="400" Height="400" DockPanel.Dock="Left" Source="{Binding Bmp}"/>
+          <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" Margin="5" LastChildFill="False">
+            <Button Command="{Binding Save}" Margin="5" DockPanel.Dock="Left">Save NFT</Button>
+            <Button Command="{Binding SaveMetadata}"  Margin="5" DockPanel.Dock="Left">Save Metadata</Button>
+            <Button Command="{Binding FindHolders}"  Margin="5" DockPanel.Dock="Right"
+                  IsEnabled="{Binding !Loading}" Width="200">
+              <Grid>
+                <TextBlock IsVisible="{Binding !Loading}" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center">Find Holders</TextBlock>
+                <TextBlock IsVisible="{Binding Loading}" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Text="{Binding Status}"/>
+                <ProgressBar VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Classes="Circle" IsIndeterminate="True" IsVisible="{Binding Loading}"  Width="20"  Height="20"  MinWidth="20"/>
+              </Grid>
+            </Button>
+          </DockPanel>
+
+          <styles:Card HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,0,0,0">
+            <DockPanel LastChildFill="True">
+              <!--<TextBlock DockPanel.Dock="Top" Text="Metadata" Classes="Headline5" />-->
+
+              <TextBox Classes="Solo" IsReadOnly="True"  Text="{Binding Result}" AcceptsReturn="True" TextWrapping="Wrap" VerticalContentAlignment="Top"/>
+            </DockPanel>
+          </styles:Card>
+
+
+
+        </DockPanel>
+
+      </DockPanel>
+
+
+      <DockPanel  DockPanel.Dock="Bottom" IsVisible="{Binding ShowCollectionOwners}">
+
+        <DockPanel DockPanel.Dock="Left" Width="400" Margin="10,5,10,0">
+
+          <Button Command="{Binding ExportMints}" DockPanel.Dock="Bottom" IsEnabled="{Binding CanExportMints}" Margin="0,10,0,0" Width="100">Export</Button>
+
+          <ScrollViewer>
+            <ItemsRepeater DockPanel.Dock="Left" Items="{Binding Mints}" HorizontalAlignment="Stretch" Margin="10" >
+              <ItemsRepeater.ItemTemplate>
+                <DataTemplate>
+                  <TextBlock Text="{Binding}" />
+                </DataTemplate>
+              </ItemsRepeater.ItemTemplate>
+            </ItemsRepeater>
+          </ScrollViewer>
+        </DockPanel>
+
+        <DockPanel DockPanel.Dock="Left" Margin="10,5,10,0">
+
+          <Button Command="{Binding ExportOwners}" DockPanel.Dock="Bottom" IsEnabled="{Binding CanExportHolders}" Margin="0,10,0,0" Width="100">Export</Button>
+
+          <DataGrid DockPanel.Dock="Left" Items="{Binding Pairs}" HorizontalAlignment="Stretch">
+            <DataGrid.Columns>
+              <DataGridTextColumn Header="Owner" Binding="{Binding Owner}" Width="400"/>
+              <DataGridTextColumn Header="Quantity" Binding="{Binding Count}" />
+            </DataGrid.Columns>
+          </DataGrid>
+
+        </DockPanel>
+
+      </DockPanel>
+    </DockPanel>
+  </styles:Card>
+
+
+</UserControl>

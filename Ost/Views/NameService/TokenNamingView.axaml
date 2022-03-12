@@ -1,0 +1,79 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:styles="clr-namespace:Material.Styles;assembly=Material.Styles"
+             xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+			 mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ost.Views.NameService.TokenNamingView">
+  <DockPanel
+		LastChildFill="True"
+		Margin="5"
+		HorizontalAlignment="Stretch"
+		VerticalAlignment="Stretch">
+    <styles:Card
+      Height="180"
+      DockPanel.Dock="Bottom"
+				Margin="5">
+      <DockPanel LastChildFill="False">
+        <TextBlock DockPanel.Dock="Top" Classes="Headline5">Reverse Token Lookup</TextBlock>
+
+        <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="0,10">
+          <TextBlock DockPanel.Dock="Left" VerticalAlignment="Center" Margin="5,0">Ticker</TextBlock>
+          <TextBox DockPanel.Dock="Left" Width="200" Text="{Binding TickerQuery}" Margin="5,0"/>
+          <Button DockPanel.Dock="Left"
+                  Margin="5,0"
+                  Classes="Filled"
+                  Command="{Binding QueryTokenName}"
+                  Width="75"
+                  IsEnabled="{Binding !LoadingTicker}">
+            <Grid>
+              <TextBlock IsVisible="{Binding !LoadingTicker}" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center">Query</TextBlock>
+              <ProgressBar VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Classes="Circle" IsIndeterminate="True" IsVisible="{Binding LoadingTicker}"  Width="20"  Height="20"  MinWidth="20"/>
+            </Grid>
+          </Button>
+
+        </DockPanel>
+        <TextBox DockPanel.Dock="Top" IsReadOnly="True" Text="{Binding ReverseMintNameRecord.Value.Key}" Width="500" HorizontalAlignment="Left"/>
+      </DockPanel>
+    </styles:Card>
+    <styles:Card
+      VerticalAlignment="Stretch"
+				Margin="5">
+      <DockPanel LastChildFill="True">
+        <TextBlock DockPanel.Dock="Top" Classes="Headline5">Token Mint Lookup</TextBlock>
+
+        <DockPanel DockPanel.Dock="Top" LastChildFill="False" Margin="0,10" Width="500" HorizontalAlignment="Left">
+          <TextBlock DockPanel.Dock="Top" VerticalAlignment="Center" Margin="0,0,5,0">Token Mint Address</TextBlock>
+          <TextBox DockPanel.Dock="Top" Width="500" Text="{Binding TokenMintQuery}" Margin="5,0"/>
+          <Button DockPanel.Dock="Right"
+                  Margin="5"
+                  Classes="Filled"
+                  Command="{Binding QueryTokenMint}"
+                  Width="75"
+                  IsEnabled="{Binding !LoadingMint}">
+            <Grid>
+              <TextBlock IsVisible="{Binding !LoadingMint}" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center">Query</TextBlock>
+              <ProgressBar VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" Classes="Circle" IsIndeterminate="True" IsVisible="{Binding LoadingMint}"  Width="20"  Height="20"  MinWidth="20"/>
+            </Grid>
+          </Button>
+
+        </DockPanel>
+        <DockPanel>
+          <Image DockPanel.Dock="Right" Source="{Binding Icon}" MaxWidth="{Binding Icon.Size.Width}" MaxHeight="{Binding Icon.Size.Height}" ></Image>
+          <TextBlock DockPanel.Dock="Top" Text="Ticker"/>
+          <TextBox DockPanel.Dock="Top" IsReadOnly="True" Text="{Binding MintNameRecord.Value.Ticker}" Width="500" HorizontalAlignment="Left"/>
+
+          <TextBlock DockPanel.Dock="Top" Text="Name"/>
+          <TextBox DockPanel.Dock="Top" IsReadOnly="True" Text="{Binding MintNameRecord.Value.Name}" Width="500" HorizontalAlignment="Left"/>
+          <TextBlock DockPanel.Dock="Top" Text="Decimals"/>
+          <TextBox DockPanel.Dock="Top" IsReadOnly="True" Text="{Binding MintNameRecord.Value.Decimals}" Width="500" HorizontalAlignment="Left"/>
+          <TextBlock DockPanel.Dock="Top" Text="Website"/>
+          <TextBox DockPanel.Dock="Top" IsReadOnly="True" Text="{Binding MintNameRecord.Value.Website}" Width="500" HorizontalAlignment="Left"/>
+        </DockPanel>
+
+
+      </DockPanel>
+    </styles:Card>
+  </DockPanel>
+</UserControl>
